@@ -1,10 +1,12 @@
 package com.example.linebot;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class LineTestController {
+
     private final LineNotifyService lineNotifyService;
 
     public LineTestController(LineNotifyService lineNotifyService) {
@@ -18,8 +20,8 @@ public class LineTestController {
     }
 
     @GetMapping("/select")
-    public String sendSelector() {
-        lineNotifyService.sendLeagueSelector();
-        return "リーグ選択を送信しました";
+    public String sendSelector(@RequestParam String userId) {
+        lineNotifyService.sendLeagueSelector(userId);
+        return "リーグ選択を送信しました（宛先：" + userId + "）";
     }
 }

@@ -34,11 +34,11 @@ public class LineNotifyService {
         }
     }
 
-    public void sendLeagueSelector() {
+    public void sendLeagueSelector(String userId) {
         OkHttpClient client = new OkHttpClient();
 
         String json = "{"
-                + "\"to\":\"" + USER_ID + "\","
+                + "\"to\":\"" + userId + "\","
                 + "\"messages\":["
                 + "  {"
                 + "    \"type\":\"flex\","
@@ -93,6 +93,50 @@ public class LineNotifyService {
 
         try (Response response = client.newCall(request).execute()) {
             System.out.println("送信: " + response.body().string());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void sendPacificTeamSelector(String userId) {
+        OkHttpClient client = new OkHttpClient();
+
+        String json = "{"
+                + "\"to\":\"" + userId + "\","
+                + "\"messages\":["
+                + "  {"
+                + "    \"type\":\"flex\","
+                + "    \"altText\":\"パ・リーグのチームを選んでください\","
+                + "    \"contents\":{"
+                + "      \"type\":\"bubble\","
+                + "      \"body\":{"
+                + "        \"type\":\"box\","
+                + "        \"layout\":\"vertical\","
+                + "        \"contents\":["
+                + "          {\"type\":\"text\",\"text\":\"パ・リーグのチームを選んでください\",\"weight\":\"bold\",\"size\":\"md\"},"
+                + "          {\"type\":\"box\",\"layout\":\"vertical\",\"spacing\":\"sm\",\"contents\":["
+                + "            {\"type\":\"button\",\"action\":{\"type\":\"message\",\"label\":\"楽天\",\"text\":\"楽天\"}},"
+                + "            {\"type\":\"button\",\"action\":{\"type\":\"message\",\"label\":\"ロッテ\",\"text\":\"ロッテ\"}},"
+                + "            {\"type\":\"button\",\"action\":{\"type\":\"message\",\"label\":\"ソフトバンク\",\"text\":\"ソフトバンク\"}},"
+                + "            {\"type\":\"button\",\"action\":{\"type\":\"message\",\"label\":\"西武\",\"text\":\"西武\"}},"
+                + "            {\"type\":\"button\",\"action\":{\"type\":\"message\",\"label\":\"オリックス\",\"text\":\"オリックス\"}},"
+                + "            {\"type\":\"button\",\"action\":{\"type\":\"message\",\"label\":\"日本ハム\",\"text\":\"日本ハム\"}}"
+                + "          ]}"
+                + "        ]"
+                + "      }"
+                + "    }"
+                + "  }"
+                + "]"
+                + "}";
+
+        Request request = new Request.Builder()
+                .url(LINE_API_URL)
+                .post(RequestBody.create(json, MediaType.parse("application/json")))
+                .addHeader("Authorization", "Bearer " + CHANNEL_ACCESS_TOKEN)
+                .build();
+
+        try (Response response = client.newCall(request).execute()) {
+            System.out.println("パリーグチーム選択送信: " + response.body().string());
         } catch (Exception e) {
             e.printStackTrace();
         }
