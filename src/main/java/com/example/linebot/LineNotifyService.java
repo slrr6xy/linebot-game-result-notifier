@@ -33,4 +33,68 @@ public class LineNotifyService {
             e.printStackTrace();
         }
     }
+
+    public void sendLeagueSelector() {
+        OkHttpClient client = new OkHttpClient();
+
+        String json = "{"
+                + "\"to\":\"" + USER_ID + "\","
+                + "\"messages\":["
+                + "  {"
+                + "    \"type\":\"flex\","
+                + "    \"altText\":\"リーグを選んでください\","
+                + "    \"contents\":{"
+                + "      \"type\":\"bubble\","
+                + "      \"body\":{"
+                + "        \"type\":\"box\","
+                + "        \"layout\":\"vertical\","
+                + "        \"contents\":["
+                + "          {"
+                + "            \"type\":\"text\","
+                + "            \"text\":\"リーグを選んでください\","
+                + "            \"weight\":\"bold\","
+                + "            \"size\":\"md\""
+                + "          },"
+                + "          {"
+                + "            \"type\":\"box\","
+                + "            \"layout\":\"horizontal\","
+                + "            \"spacing\":\"md\","
+                + "            \"contents\":["
+                + "              {"
+                + "                \"type\":\"button\","
+                + "                \"action\":{"
+                + "                  \"type\":\"message\","
+                + "                  \"label\":\"パ・リーグ\","
+                + "                  \"text\":\"パリーグ\""
+                + "                }"
+                + "              },"
+                + "              {"
+                + "                \"type\":\"button\","
+                + "                \"action\":{"
+                + "                  \"type\":\"message\","
+                + "                  \"label\":\"セ・リーグ\","
+                + "                  \"text\":\"セリーグ\""
+                + "                }"
+                + "              }"
+                + "            ]"
+                + "          }"
+                + "        ]"
+                + "      }"
+                + "    }"
+                + "  }"
+                + "]"
+                + "}";
+
+        Request request = new Request.Builder()
+                .url(LINE_API_URL)
+                .post(RequestBody.create(json, MediaType.parse("application/json")))
+                .addHeader("Authorization", "Bearer " + CHANNEL_ACCESS_TOKEN)
+                .build();
+
+        try (Response response = client.newCall(request).execute()) {
+            System.out.println("送信: " + response.body().string());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

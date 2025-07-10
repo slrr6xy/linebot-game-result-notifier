@@ -16,4 +16,10 @@ public class LineTestController {
         lineNotifyService.sendMessage("こんにちは！test");
         return "LINEに送信しました";
     }
+
+    @GetMapping("/select")
+    public String sendSelector() {
+        lineNotifyService.sendLeagueSelector();
+        return "リーグ選択を送信しました";
+    }
 }
