@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @RestController
 public class LineWebhookController {
@@ -40,10 +41,17 @@ public class LineWebhookController {
                 }
 
                 List<String> pacificTeams = List.of("楽天", "ロッテ", "ソフトバンク", "西武", "オリックス", "日本ハム");
-
                 if (pacificTeams.contains(text)) {
-                    userPreferenceRepository.save(new UserPreference(userId, text));
-                    lineNotifyService.sendMessage("あなたの応援チーム「" + text + "」を登録しました！");
+                    Optional<UserPreference> existing = userPreferenceRepository.findByUserId(userId);
+                    if (existing.isPresent()) {
+                        UserPreference pref = existing.get();
+                        pref.setTeamName(text);
+                        userPreferenceRepository.save(pref);
+                        lineNotifyService.sendMessage("あなたの応援チームを「" + text + "」に更新しました！");
+                    } else {
+                        userPreferenceRepository.save(new UserPreference(userId, text));
+                        lineNotifyService.sendMessage("あなたの応援チーム「" + text + "」を登録しました！");
+                    }
                 }
 
                 // あとで：セリーグ対応も追加予定

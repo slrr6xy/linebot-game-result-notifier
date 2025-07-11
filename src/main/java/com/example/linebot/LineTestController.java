@@ -1,5 +1,8 @@
 package com.example.linebot;
 
+import com.example.linebot.model.UserPreference;
+import com.example.linebot.repository.UserPreferenceRepository;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -8,9 +11,11 @@ import org.springframework.web.bind.annotation.RestController;
 public class LineTestController {
 
     private final LineNotifyService lineNotifyService;
+    private final UserPreferenceRepository userPreferenceRepository;
 
-    public LineTestController(LineNotifyService lineNotifyService) {
+    public LineTestController(LineNotifyService lineNotifyService, UserPreferenceRepository repo) {
         this.lineNotifyService = lineNotifyService;
+        this.userPreferenceRepository = repo;
     }
 
     @GetMapping("/test")
@@ -23,5 +28,12 @@ public class LineTestController {
     public String sendSelector(@RequestParam String userId) {
         lineNotifyService.sendLeagueSelector(userId);
         return "リーグ選択を送信しました（宛先：" + userId + "）";
+    }
+
+    @GetMapping("/user-preference")
+    public String getUserPreference(@RequestParam String userId) {
+        return userPreferenceRepository.findByUserId(userId)
+                .map(pref -> "現在の登録チーム：" + pref.getTeamName())
+                .orElse("チームはまだ登録されていません");
     }
 }
