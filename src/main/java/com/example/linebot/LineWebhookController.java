@@ -34,14 +34,23 @@ public class LineWebhookController {
 
                 if (text.equals("スタート")) {
                     lineNotifyService.sendLeagueSelector(userId);
+                    return;
                 }
 
                 if (text.equals("パリーグ")) {
                     lineNotifyService.sendPacificTeamSelector(userId);
+                    return;
+                }
+
+                if (text.equals("セリーグ")) {
+                    lineNotifyService.sendCentralTeamSelector(userId);
+                    return;
                 }
 
                 List<String> pacificTeams = List.of("楽天", "ロッテ", "ソフトバンク", "西武", "オリックス", "日本ハム");
-                if (pacificTeams.contains(text)) {
+                List<String> centraTeams = List.of("巨人", "阪神", "中日", "ヤクルト", "広島", "DeNA");
+
+                if (pacificTeams.contains(text) || centraTeams.contains(text)) {
                     Optional<UserPreference> existing = userPreferenceRepository.findByUserId(userId);
                     if (existing.isPresent()) {
                         UserPreference pref = existing.get();
@@ -53,8 +62,6 @@ public class LineWebhookController {
                         lineNotifyService.sendMessage("あなたの応援チーム「" + text + "」を登録しました！");
                     }
                 }
-
-                // あとで：セリーグ対応も追加予定
             }
         } catch (Exception e) {
             e.printStackTrace();
