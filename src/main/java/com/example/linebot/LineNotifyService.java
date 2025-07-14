@@ -18,7 +18,7 @@ public class LineNotifyService {
     public void sendMessage(String message) {
         OkHttpClient client = new OkHttpClient();
 
-        String json = "{ \"to\": \"" + USER_ID + "\", \"messages\": [ { \"type\": \"text\", \"text\": \"" + message + "\" } ] }";
+        String json = "{ \"to\": \"" + USER_ID + "\", \"messages\": [ { \"type\": \"text\", \"text\": \"" + message.replace("\n", "\\n") + "\" } ] }";
 
         Request request = new Request.Builder()
                 .url(LINE_API_URL)
