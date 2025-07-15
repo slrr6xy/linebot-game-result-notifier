@@ -7,6 +7,7 @@ import com.example.linebot.repository.UserPreferenceRepository;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -36,6 +37,10 @@ public class GameNotificationService {
 
             if (game.isPresent()) {
                 String msg = gameResultService.getResultMessage(game.get(), user.getTeamName());
+                lineNotifyService.sendMessage(msg);
+            } else {
+                String msg = String.format("本日 (%s) は　[%s]　の試合はありません。",
+                        LocalDate.now(), user.getTeamName());
                 lineNotifyService.sendMessage(msg);
             }
         }
