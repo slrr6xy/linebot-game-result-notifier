@@ -39,10 +39,16 @@ public class GameResultService {
     }
 
     public String getResultMessage(GameResult game, String teamName) {
-        int myScore = teamName.equals(game.getHomeTeam()) ? game.getHomeScore() : game.getAwayScore();
-        int oppScore = teamName.equals(game.getHomeTeam()) ? game.getAwayScore() : game.getHomeScore();
+        Integer myScore = teamName.equals(game.getHomeTeam()) ? game.getHomeScore() : game.getAwayScore();
+        Integer oppScore = teamName.equals(game.getHomeTeam()) ? game.getAwayScore() : game.getHomeScore();
+
+        if (myScore == null || oppScore == null) {
+            return String.format("今日の試合結果:%s vs %s\n結果: 試合情報がまだ登録されていません。",
+                    game.getHomeTeam(), game.getAwayTeam());
+        }
 
         String result = myScore > oppScore ? "勝ち" : (myScore < oppScore ? "負け" : "引き分け");
-        return String.format("今日の試合結果:%s vs %s\nスコア: %d - %d\n結果: %s", game.getHomeTeam(), game.getAwayTeam(), game.getHomeScore(), game.getAwayScore(), result);
+        return String.format("今日の試合結果:%s vs %s\nスコア: %d - %d\n結果: %s",
+                game.getHomeTeam(), game.getAwayTeam(), game.getHomeScore(), game.getAwayScore(), result);
     }
 }

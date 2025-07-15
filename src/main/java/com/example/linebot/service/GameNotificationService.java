@@ -25,7 +25,7 @@ public class GameNotificationService {
         this.lineNotifyService = lineNotifyService;
     }
 
-    @Scheduled(cron = "0 * * * * *", zone = "Asia/Tokyo") // 毎日21:00に実行
+    @Scheduled(cron = "0 0 21 * * *", zone = "Asia/Tokyo") // 毎日21:00に実行
     public void notifyUser() {
         System.out.println("通知処理を実行します");
 
