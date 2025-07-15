@@ -25,10 +25,11 @@ public class GameResultService {
 
             List<GameResult> games = mapper.readValue(is, new TypeReference<List<GameResult>>() {});
 
-            String today = LocalDate.now().toString();
-
             return games.stream()
-                    .filter(game -> game.getDate().equals(today))
+                    .filter(game -> {
+                        String data = game.getDate().equals("today") ? LocalDate.now().toString() : game.getDate();
+                        return data.equals(LocalDate.now().toString());
+                    })
                     .filter(game -> game.getHomeTeam().equals(teamName) || game.getAwayTeam().equals(teamName))
                     .findFirst();
         } catch (Exception e) {

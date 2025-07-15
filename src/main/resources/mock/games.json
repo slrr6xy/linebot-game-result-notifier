@@ -1,16 +1,23 @@
 [
   {
-    "date": "2025-07-14",
+    "date": "2025-07-15",
     "homeTeam": "楽天",
     "awayTeam": "ロッテ",
     "homeScore": 3,
     "awayScore": 2
   },
   {
-    "date": "2025-07-14",
+    "date": "today",
     "homeTeam": "巨人",
     "awayTeam": "阪神",
-    "homeScore": 1,
-    "awayScore": 5
+    "homeScore": 2,
+    "awayScore": 2
+  },
+  {
+    "date": "today",
+    "homeTeam": "ソフトバンク",
+    "awayTeam": "西武",
+    "homeScore": null,
+    "awayScore": null
   }
 ]
