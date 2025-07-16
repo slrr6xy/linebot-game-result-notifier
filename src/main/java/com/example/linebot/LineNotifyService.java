@@ -12,13 +12,12 @@ public class LineNotifyService {
     private final Dotenv dotenv = Dotenv.load();
 
     private final String CHANNEL_ACCESS_TOKEN = dotenv.get("LINE_CHANNEL_ACCESS_TOKEN");
-    private final String USER_ID = dotenv.get("LINE_USER_ID");
     private static final String LINE_API_URL = "https://api.line.me/v2/bot/message/push";
 
-    public void sendMessage(String message) {
+    public void sendMessage(String userId, String message) {
         OkHttpClient client = new OkHttpClient();
 
-        String json = "{ \"to\": \"" + USER_ID + "\", \"messages\": [ { \"type\": \"text\", \"text\": \"" + message.replace("\n", "\\n") + "\" } ] }";
+        String json = "{ \"to\": \"" + userId + "\", \"messages\": [ { \"type\": \"text\", \"text\": \"" + message.replace("\n", "\\n") + "\" } ] }";
 
         Request request = new Request.Builder()
                 .url(LINE_API_URL)

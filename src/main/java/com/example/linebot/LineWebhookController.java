@@ -56,10 +56,10 @@ public class LineWebhookController {
                         UserPreference pref = existing.get();
                         pref.setTeamName(text);
                         userPreferenceRepository.save(pref);
-                        lineNotifyService.sendMessage("あなたの応援チームを「" + text + "」に更新しました！");
+                        lineNotifyService.sendMessage(userId, "あなたの応援チームを「" + text + "」に更新しました！");
                     } else {
                         userPreferenceRepository.save(new UserPreference(userId, text));
-                        lineNotifyService.sendMessage("あなたの応援チーム「" + text + "」を登録しました！");
+                        lineNotifyService.sendMessage(userId, "あなたの応援チーム「" + text + "」を登録しました！");
                     }
                 }
             }

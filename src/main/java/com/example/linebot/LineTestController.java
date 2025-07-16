@@ -22,8 +22,8 @@ public class LineTestController {
     }
 
     @GetMapping("/test")
-    public String sendTestMessage() {
-        lineNotifyService.sendMessage("こんにちは！test");
+    public String sendTestMessage(@RequestParam String userId) {
+        lineNotifyService.sendMessage(userId, "こんにちは！test");
         return "LINEに送信しました";
     }
 

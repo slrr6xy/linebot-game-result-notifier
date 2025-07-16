@@ -37,11 +37,11 @@ public class GameNotificationService {
 
             if (game.isPresent()) {
                 String msg = gameResultService.getResultMessage(game.get(), user.getTeamName());
-                lineNotifyService.sendMessage(msg);
+                lineNotifyService.sendMessage(user.getUserId(), msg);
             } else {
                 String msg = String.format("本日 (%s) は　[%s]　の試合はありません。",
                         LocalDate.now(), user.getTeamName());
-                lineNotifyService.sendMessage(msg);
+                lineNotifyService.sendMessage(user.getUserId(), msg);
             }
         }
     }

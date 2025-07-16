@@ -43,12 +43,12 @@ public class GameResultService {
         Integer oppScore = teamName.equals(game.getHomeTeam()) ? game.getAwayScore() : game.getHomeScore();
 
         if (myScore == null || oppScore == null) {
-            return String.format("今日の試合結果:%s vs %s\n結果: 試合情報がまだ登録されていません。",
+            return String.format("今日の試合:%s vs %s\n\n結果: 試合情報がまだ登録されていません。",
                     game.getHomeTeam(), game.getAwayTeam());
         }
 
         String result = myScore > oppScore ? "勝ち" : (myScore < oppScore ? "負け" : "引き分け");
-        return String.format("今日の試合結果:%s vs %s\nスコア: %d - %d\n結果: %s",
+        return String.format("今日の試合:%s vs %s\n\nスコア: %d - %d\n\n結果: %s",
                 game.getHomeTeam(), game.getAwayTeam(), game.getHomeScore(), game.getAwayScore(), result);
     }
 }
